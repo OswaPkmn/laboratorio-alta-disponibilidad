@@ -1,5 +1,7 @@
 package com.ecom.catalog;
 
+import org.eclipse.microprofile.faulttolerance.Timeout;
+import org.eclipse.microprofile.faulttolerance.Fallback;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
@@ -33,6 +35,8 @@ public class CatalogResource {
      *                              simulación de latencia
      */
     @GET
+    @Timeout(800)
+    @Fallback(fallbackMethod = "fallbackProducts")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getProducts() throws InterruptedException {
         int chance = random.nextInt(10);
@@ -60,6 +64,10 @@ public class CatalogResource {
      * 
      * @return Response con mensaje de bienvenida
      */
+    public Response fallbackProducts() {
+        LOG.warning("⚠️ Activando Fallback: Retornando catálogo degradado desde caché.");
+        return Response.ok("{\"status\":\"DEGRADED_CACHE\",\"data\":[\"Product A (Cached)\",\"Product B (Cached)\"]}").build();
+    }
     @GET
     @Path("/hello")
     @Produces(MediaType.TEXT_PLAIN)
