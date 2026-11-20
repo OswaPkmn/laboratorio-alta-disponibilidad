@@ -1,0 +1,46 @@
+=== ESTADO DEL DEPLOYMENT, PODS Y SERVICE ===
+NAME                              READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/catalog-service   1/1     1            1           5m14s
+
+NAME                                   READY   STATUS    RESTARTS   AGE
+pod/catalog-service-7798997c8d-449xn   1/1     Running   0          5m14s
+
+NAME                      TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+service/catalog-service   ClusterIP   10.108.16.147   <none>        8080/TCP   5m14s
+
+=== EVENTOS DEL POD (PULL DE DOCKER HUB Y HEALTH CHECKS) ===
+Events:
+  Type     Reason            Age    From               Message
+  ----     ------            ----   ----               -------
+  Warning  FailedScheduling  5m15s  default-scheduler  0/1 nodes are available: 1 node(s) had untolerated taint(s). preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling.
+  Normal   Scheduled         4m32s  default-scheduler  Successfully assigned default/catalog-service-7798997c8d-449xn to minikube
+  Normal   Pulling           4m29s  kubelet            spec.containers{catalog-service}: Pulling image "oswapkmn/catalog-service:1.0.0"
+  Normal   Pulled            50s    kubelet            spec.containers{catalog-service}: Successfully pulled image "oswapkmn/catalog-service:1.0.0" in 3m39.728s (3m39.728s including waiting). Image size: 178748104 bytes.
+  Normal   Created           49s    kubelet            spec.containers{catalog-service}: Container created
+  Normal   Started           49s    kubelet            spec.containers{catalog-service}: Container started
+
+=== VALIDACION DE ENDPOINTS ===
+{"status":"DEGRADED_CACHE","data":["Product A (Cached)","Product B (Cached)"]}
+{
+    "status": "UP",
+    "checks": [
+        {
+            "name": "catalog-database-check",
+            "status": "UP"
+        }
+    ]
+}
+{
+    "status": "UP",
+    "checks": [
+        {
+            "name": "catalog-database-check",
+            "status": "UP"
+        }
+    ]
+}
+{
+    "status": "UP",
+    "checks": [
+    ]
+}
